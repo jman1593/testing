@@ -225,8 +225,8 @@
         favoriteIcon.addEventListener('click', function() {
             toggleFavorite();
         });
-        function recordGameVisit(gameName) {
-  const url = 'https://script.google.com/macros/s/AKfycbzzLx2kaZWhCUHInv1OmWfnqK1Jyj7R200gzQ1R9gA8eawdtdq1GedIbEfUOnrdFLp93g/exec'; // Replace with your Web App URL
+function recordGameVisit(gameName) {
+  const url = 'https://script.google.com/macros/s/AKfycbzzLx2kaZWhCUHInv1OmWfnqK1Jyj7R200gzQ1R9gA8eawdtdq1GedIbEfUOnrdFLp93g/exec'; // Replace with the URL of your deployed Web App
 
   fetch(url, {
     method: 'POST',
