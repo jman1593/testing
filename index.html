@@ -186,75 +186,75 @@
                 }
             });
         });
-    </script>
 
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const favoriteIcon = document.getElementById('favoriteIcon');
-        const gameTitle = document.getElementById('gameTitle').textContent;
-
-        // Function to toggle the favorite status
-        function toggleFavorite() {
-            let favorites = JSON.parse(localStorage.getItem('favorites') || '{}');
-            const imagePath = './img/' + gameTitle + '.jpg'; // Adjust based on how you store the image paths
-
-            if (favorites[gameTitle]) {
-                delete favorites[gameTitle];
-            } else {
-                favorites[gameTitle] = { path: `./html/${gameTitle}/index.html`, image: imagePath };
-            }
-
-            localStorage.setItem('favorites', JSON.stringify(favorites));
-            updateFavoriteIcon(favorites, gameTitle);
-        }
-
-        // Function to update the star icon
-        function updateFavoriteIcon(favorites, title) {
-            if (favorites[title]) {
-                favoriteIcon.innerHTML = '&#9733;'; // Filled star for favorited games
-            } else {
-                favoriteIcon.innerHTML = '&#9734;'; // Empty star for non-favorited games
-            }
-        }
-
-        // Initial check to set the correct state of the star icon
-        const favorites = JSON.parse(localStorage.getItem('favorites') || '{}');
-        updateFavoriteIcon(favorites, gameTitle);
-
-        // Event listener for the favorite icon
-        favoriteIcon.addEventListener('click', function() {
-            toggleFavorite();
-        });
-function recordGameVisit(gameName) {
-  const url = 'https://script.google.com/macros/s/AKfycbzzLx2kaZWhCUHInv1OmWfnqK1Jyj7R200gzQ1R9gA8eawdtdq1GedIbEfUOnrdFLp93g/exec'; // Replace with the URL of your deployed Web App
-
-  fetch(url, {
-    method: 'POST',
-    body: JSON.stringify({ gameName }),
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  })
-  .then(response => {
-    if (response.ok) {
-      return response.json();
-    } else {
-      throw new Error("Failed to record game visit.");
-    }
-  })
-  .then(data => {
-    console.log("Game visit recorded:", data);
-  })
-  .catch(error => {
-    console.error("Error recording game visit:", error);
-  });
-}
-
-    });
-    </script>
-<script>
         document.addEventListener('DOMContentLoaded', function() {
-                recordGameVisit(gameTitle);
+            const favoriteIcon = document.getElementById('favoriteIcon');
+            const gameTitle = document.getElementById('gameTitle').textContent;
+
+            // Function to toggle the favorite status
+            function toggleFavorite() {
+                let favorites = JSON.parse(localStorage.getItem('favorites') || '{}');
+                const imagePath = './img/' + gameTitle + '.jpg'; // Adjust based on how you store the image paths
+
+                if (favorites[gameTitle]) {
+                    delete favorites[gameTitle];
+                } else {
+                    favorites[gameTitle] = { path: `./html/${gameTitle}/index.html`, image: imagePath };
+                }
+
+                localStorage.setItem('favorites', JSON.stringify(favorites));
+                updateFavoriteIcon(favorites, gameTitle);
+            }
+
+            // Function to update the star icon
+            function updateFavoriteIcon(favorites, title) {
+                if (favorites[title]) {
+                    favoriteIcon.innerHTML = '&#9733;'; // Filled star for favorited games
+                } else {
+                    favoriteIcon.innerHTML = '&#9734;'; // Empty star for non-favorited games
+                }
+            }
+
+            // Initial check to set the correct state of the star icon
+            const favorites = JSON.parse(localStorage.getItem('favorites') || '{}');
+            updateFavoriteIcon(favorites, gameTitle);
+
+            // Event listener for the favorite icon
+            favoriteIcon.addEventListener('click', function() {
+                toggleFavorite();
+            });
+        });
+
+        // Definition of recordGameVisit function
+        function recordGameVisit(gameName) {
+            const url = 'https://script.google.com/macros/s/AKfycbzzLx2kaZWhCUHInv1OmWfnqK1Jyj7R200gzQ1R9gA8eawdtdq1GedIbEfUOnrdFLp93g/exec'; // Replace with the URL of your deployed Web App
+
+            fetch(url, {
+                method: 'POST',
+                body: JSON.stringify({ gameName }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error("Failed to record game visit.");
+                }
+            })
+            .then(data => {
+                console.log("Game visit recorded:", data);
+            })
+            .catch(error => {
+                console.error("Error recording game visit:", error);
+            });
+        }
+
+        // Call recordGameVisit when the DOM content is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            const gameTitle = document.getElementById('gameTitle').textContent;
+            recordGameVisit(gameTitle);
         });
 </script>
     </body>
