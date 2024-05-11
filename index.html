@@ -231,16 +231,19 @@
         document.addEventListener('DOMContentLoaded', function() {
     // JavaScript code here
 });
+
+</script>
+    <script>
+function handleResponse(data) {
+    console.log('Data from Google Apps Script:', data);
+    // Handle your data here
+}
+
 document.addEventListener('DOMContentLoaded', function() {
-    var gameName = '1v1'; // Replace '1v1' with the variable that dynamically generates the game's name if needed
-    var url = 'https://script.google.com/macros/s/AKfycbzzLx2kaZWhCUHInv1OmWfnqK1Jyj7R200gzQ1R9gA8eawdtdq1GedIbEfUOnrdFLp93g/exec'; // Replace YOUR_SCRIPT_ID with your actual script ID
-
-    fetch(`${url}?gameName=${gameName}`)
-    .then(response => response.text())
-    .then(data => console.log(data))
-    .catch(error => console.error('Error:', error));
+    var script = document.createElement('script');
+    script.src = `https://script.google.com/macros/s/AKfycbzzLx2kaZWhCUHInv1OmWfnqK1Jyj7R200gzQ1R9gA8eawdtdq1GedIbEfUOnrdFLp93g/exec?gameName=${gameTitle}&callback=handleResponse`;
+    document.head.appendChild(script);
 });
-
 </script>
     </body>
 </html>
