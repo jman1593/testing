@@ -157,6 +157,58 @@
         <button id="fullscreenButton" class="fullscreen-button">Fullscreen</button>
     </div>
 
+<!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
+
+<!-- Add additional services that you want to use -->
+<script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-analytics.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-database.js"></script>
+
+<script>
+  // Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyAkZm7tX_gusKs9bXowJlgu45IYjFMYkM0",
+  authDomain: "veiws-40397.firebaseapp.com",
+  projectId: "veiws-40397",
+  storageBucket: "veiws-40397.appspot.com",
+  messagingSenderId: "764762707209",
+  appId: "1:764762707209:web:3f8f96501b7a5000e6afd8",
+  measurementId: "G-3G2K4Z9QPW"
+};
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+</script>
+
+    <script>
+  document.addEventListener('DOMContentLoaded', function() {
+      var gameTitle = document.getElementById('gameTitle').textContent;
+
+      var database = firebase.database();
+      var viewsRef = database.ref('games/' + gameTitle);
+
+      viewsRef.transaction(function(currentViews) {
+          // If views have never been set, initialize them
+          if (currentViews === null) {
+              return 1;
+          } else {
+              return currentViews + 1;
+          }
+      }, function(error, committed, snapshot) {
+          if (error) {
+              console.log('Transaction failed abnormally!', error);
+          } else if (!committed) {
+              console.log('We aborted the transaction (because data already exists).');
+          } else {
+              console.log('Game viewed! New count: ' + snapshot.val());
+          }
+          // Disconnect from database after updating the view
+          viewsRef.off();
+      });
+  });
+</script>
+
+    
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             var fullscreenButton = document.getElementById('fullscreenButton');
