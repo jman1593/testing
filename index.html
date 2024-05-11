@@ -157,89 +157,6 @@
         <button id="fullscreenButton" class="fullscreen-button">Fullscreen</button>
     </div>
 
-<!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
-<script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
-
-<!-- Add additional services that you want to use -->
-<script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-analytics.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-database.js"></script>
-
-<script>
-  // Your web app's Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyAkZm7tX_gusKs9bXowJlgu45IYjFMYkM0",
-  authDomain: "veiws-40397.firebaseapp.com",
-  projectId: "veiws-40397",
-  storageBucket: "veiws-40397.appspot.com",
-  messagingSenderId: "764762707209",
-  appId: "1:764762707209:web:3f8f96501b7a5000e6afd8",
-  measurementId: "G-3G2K4Z9QPW"
-};
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
-  firebase.analytics();
-</script>
-
-    <script>
-  document.addEventListener('DOMContentLoaded', function() {
-      var gameTitle = document.getElementById('gameTitle').textContent;
-
-      var database = firebase.database();
-      var viewsRef = database.ref('games/' + gameTitle);
-
-      viewsRef.transaction(function(currentViews) {
-          // If views have never been set, initialize them
-          if (currentViews === null) {
-              return 1;
-          } else {
-              return currentViews + 1;
-          }
-      }, function(error, committed, snapshot) {
-          if (error) {
-              console.log('Transaction failed abnormally!', error);
-          } else if (!committed) {
-              console.log('We aborted the transaction (because data already exists).');
-          } else {
-              console.log('Game viewed! New count: ' + snapshot.val());
-          }
-          // Disconnect from database after updating the view
-          viewsRef.off();
-      });
-  });
-</script>
-
-    
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var fullscreenButton = document.getElementById('fullscreenButton');
-            var gameContainer = document.getElementById('gameContainer');
-            var gameTitle = document.getElementById('gameTitle');
-
-            function embedGame(gamePath, title) {
-                var iframe = document.createElement('iframe');
-                iframe.src = gamePath;
-                iframe.style.width = '100%';
-                iframe.style.height = '100%';
-                iframe.style.border = 'none';
-                gameContainer.innerHTML = '';
-                gameContainer.appendChild(iframe);
-                gameTitle.textContent = title;
-            }
-
-            embedGame('./game/index.html', '1v1');
-
-            fullscreenButton.addEventListener('click', function() {
-                if (gameContainer.requestFullscreen) {
-                    gameContainer.requestFullscreen();
-                } else if (gameContainer.webkitRequestFullscreen) {
-                    gameContainer.webkitRequestFullscreen();
-                } else if (gameContainer.msRequestFullscreen) {
-                    gameContainer.msRequestFullscreen();
-                }
-            });
-        });
-    </script>
-
     <script>
     document.addEventListener('DOMContentLoaded', function() {
         const favoriteIcon = document.getElementById('favoriteIcon');
@@ -299,5 +216,45 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 </script>
+    <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
+
+<!-- Add additional services that you want to use -->
+<script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-analytics.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-database.js"></script>
+
+<script>
+  // Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyAkZm7tX_gusKs9bXowJlgu45IYjFMYkM0",
+  authDomain: "veiws-40397.firebaseapp.com",
+  projectId: "veiws-40397",
+  storageBucket: "veiws-40397.appspot.com",
+  messagingSenderId: "764762707209",
+  appId: "1:764762707209:web:3f8f96501b7a5000e6afd8",
+  measurementId: "G-3G2K4Z9QPW"
+};
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+</script>
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+    var gameTitle = document.getElementById('gameTitle').textContent;
+
+    // Example of an additional operation with gameTitle
+    // Replace 'YOUR_ENDPOINT_URL' with the URL where you need to send or fetch data
+    fetch(`https://your-endpoint-url.com/api?gameName=${encodeURIComponent(gameTitle)}`)
+        .then(response => response.json())
+        .then(data => {
+            console.log('Received data:', data);
+            // Handle the received data here
+        })
+        .catch(error => console.error('Error fetching data:', error));
+
+    // If you need to perform other operations with gameTitle, add them here
+});
+</script>
+
     </body>
 </html>
