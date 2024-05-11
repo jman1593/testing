@@ -240,10 +240,12 @@ function handleResponse(data) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+    var gameTitle = document.getElementById('gameTitle').textContent; // Ensure this ID matches your HTML
     var script = document.createElement('script');
-    script.src = `https://script.google.com/macros/s/AKfycbzzLx2kaZWhCUHInv1OmWfnqK1Jyj7R200gzQ1R9gA8eawdtdq1GedIbEfUOnrdFLp93g/exec?gameName=${gameTitle}&callback=handleResponse`;
+    script.src = `https://script.google.com/macros/s/AKfycbzzLx2kaZWhCUHInv1OmWfnqK1Jyj7R200gzQ1R9gA8eawdtdq1GedIbEfUOnrdFLp93g/exec?gameName=${encodeURIComponent(gameTitle)}&callback=handleResponse`;
     document.head.appendChild(script);
 });
+
 </script>
     </body>
 </html>
