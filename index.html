@@ -158,6 +158,37 @@
     </div>
 
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var fullscreenButton = document.getElementById('fullscreenButton');
+            var gameContainer = document.getElementById('gameContainer');
+            var gameTitle = document.getElementById('gameTitle');
+
+            function embedGame(gamePath, title) {
+                var iframe = document.createElement('iframe');
+                iframe.src = gamePath;
+                iframe.style.width = '100%';
+                iframe.style.height = '100%';
+                iframe.style.border = 'none';
+                gameContainer.innerHTML = '';
+                gameContainer.appendChild(iframe);
+                gameTitle.textContent = title;
+            }
+
+            embedGame('./game/index.html', '1v1');
+
+            fullscreenButton.addEventListener('click', function() {
+                if (gameContainer.requestFullscreen) {
+                    gameContainer.requestFullscreen();
+                } else if (gameContainer.webkitRequestFullscreen) {
+                    gameContainer.webkitRequestFullscreen();
+                } else if (gameContainer.msRequestFullscreen) {
+                    gameContainer.msRequestFullscreen();
+                }
+            });
+        });
+    </script>
+
+    <script>
     document.addEventListener('DOMContentLoaded', function() {
         const favoriteIcon = document.getElementById('favoriteIcon');
         const gameTitle = document.getElementById('gameTitle').textContent;
@@ -200,50 +231,6 @@
         document.addEventListener('DOMContentLoaded', function() {
     // JavaScript code here
 });
-
 </script>
-    <!-- Firebase SDK -->
-<script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-database.js"></script>
-
-<script>
-  // Firebase configuration
-  const firebaseConfig = {
-    apiKey: "AIzaSyAkZm7tX_gusKs9bXowJlgu45IYjFMYkM0",
-    authDomain: "veiws-40397.firebaseapp.com",
-    databaseURL: "https://veiws-40397.firebaseio.com",
-    projectId: "veiws-40397",
-    storageBucket: "veiws-40397.appspot.com",
-    messagingSenderId: "764762707209",
-    appId: "1:764762707209:web:3f8f96501b7a5000e6afd8",
-    measurementId: "G-3G2K4Z9QPW"
-  };
-  
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
-
-  document.addEventListener('DOMContentLoaded', function() {
-      const gameTitle = document.getElementById('gameTitle').textContent.trim(); // Ensure no leading/trailing spaces
-
-      // Reference to Firebase database path for game views
-      const viewsRef = firebase.database().ref('games/' + gameTitle);
-
-      // Transaction to increase view count
-      viewsRef.transaction(function(currentViews) {
-          return (currentViews || 0) + 1; // If null or undefined, start at 0 and add 1
-      }, function(error, committed, snapshot) {
-          if (error) {
-              console.log('Transaction failed abnormally!', error);
-          } else if (!committed) {
-              console.log('No transaction committed.');
-          } else {
-              console.log('Game viewed! New count: ' + snapshot.val());
-          }
-          // Ensure we remove the reference after updating to prevent memory leaks
-          viewsRef.off();
-      });
-  });
-</script>
-
     </body>
 </html>
