@@ -231,31 +231,14 @@
         document.addEventListener('DOMContentLoaded', function() {
     // JavaScript code here
 });
-    document.addEventListener('DOMContentLoaded', async function() {
-  const gameTitle = document.getElementById('gameTitle').textContent;
+document.addEventListener('DOMContentLoaded', function() {
+    var gameName = '1v1'; // Replace '1v1' with the variable that dynamically generates the game's name if needed
+    var url = 'https://script.google.com/macros/s/AKfycbzzLx2kaZWhCUHInv1OmWfnqK1Jyj7R200gzQ1R9gA8eawdtdq1GedIbEfUOnrdFLp93g/exec'; // Replace YOUR_SCRIPT_ID with your actual script ID
 
-  // Google Sheets API configuration
-  const spreadsheetId = '1yMZGxQEPUTCfNeGdd5e638_FHSqA2lm60vfb51ntDIw';
-  const range = 'A2:B'; // Assuming your data starts from A2:B
-
-  // Call Google Sheets API to check if the game exists
-  const client = await appendData(spreadsheetId, range, []);
-
-  // Check if the game exists in the sheet
-  const gameExists = client.data.values.some(row => row[0] === gameTitle);
-
-  // If the game doesn't exist, add it to the sheet
-  if (!gameExists) {
-    await appendData(spreadsheetId, range, [[gameTitle, 1]]);
-  } else {
-    // If the game exists, find its row and increment the count
-    const index = client.data.values.findIndex(row => row[0] === gameTitle);
-    const count = parseInt(client.data.values[index][1]);
-    client.data.values[index][1] = count + 1;
-
-    // Update the count in the sheet
-    await appendData(spreadsheetId, `B${index + 2}`, [[count + 1]]);
-  }
+    fetch(`${url}?gameName=${gameName}`)
+    .then(response => response.text())
+    .then(data => console.log(data))
+    .catch(error => console.error('Error:', error));
 });
 
 </script>
