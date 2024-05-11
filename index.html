@@ -202,56 +202,47 @@
 });
 
 </script>
-    <script>
-function handleResponse(data) {
-    console.log('Data from Google Apps Script:', data);
-    // Handle your data here
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-    var gameTitle = document.getElementById('gameTitle').textContent; // Ensure this ID matches your HTML
-    var script = document.createElement('script');
-    script.src = `https://script.google.com/macros/s/AKfycbzzLx2kaZWhCUHInv1OmWfnqK1Jyj7R200gzQ1R9gA8eawdtdq1GedIbEfUOnrdFLp93g/exec?gameName=${encodeURIComponent(gameTitle)}&callback=handleResponse`;
-    document.head.appendChild(script);
-});
-
-</script>
-    <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+    <!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
-
-<!-- Add additional services that you want to use -->
-<script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-analytics.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-database.js"></script>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    var gameTitle = document.getElementById('gameTitle').textContent.trim(); // Trim to remove any extra spaces
+  // Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyAkZm7tX_gusKs9bXowJlgu45IYjFMYkM0",
+    authDomain: "veiws-40397.firebaseapp.com",
+    databaseURL: "https://veiws-40397.firebaseio.com",
+    projectId: "veiws-40397",
+    storageBucket: "veiws-40397.appspot.com",
+    messagingSenderId: "764762707209",
+    appId: "1:764762707209:web:3f8f96501b7a5000e6afd8",
+    measurementId: "G-3G2K4Z9QPW"
+  };
+  
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
 
-    // Initialize Firebase
-    var firebaseConfig = {
-        apiKey: "AIzaSyAkZm7tX_gusKs9bXowJlgu45IYjFMYkM0",
-        authDomain: "veiws-40397.firebaseapp.com",
-        projectId: "veiws-40397",
-        storageBucket: "veiws-40397.appspot.com",
-        messagingSenderId: "764762707209",
-        appId: "1:764762707209:web:3f8f96501b7a5000e6afd8",
-        measurementId: "G-3G2K4Z9QPW"
-    };
-    firebase.initializeApp(firebaseConfig);
-    firebase.analytics();
+  document.addEventListener('DOMContentLoaded', function() {
+      const gameTitle = document.getElementById('gameTitle').textContent.trim(); // Ensure no leading/trailing spaces
 
-    var database = firebase.database();
-    var viewsRef = database.ref('games/' + gameTitle);
+      // Reference to Firebase database path for game views
+      const viewsRef = firebase.database().ref('games/' + gameTitle);
 
-    viewsRef.transaction(function(currentViews) {
-        return (currentViews || 0) + 1; // If null or undefined, start at 0 then add 1
-    }).then(function() {
-        console.log('View count updated for', gameTitle);
-        viewsRef.off('value'); // Disconnect this ref
-    }).catch(function(error) {
-        console.error('Transaction failed:', error);
-    });
-});
+      // Transaction to increase view count
+      viewsRef.transaction(function(currentViews) {
+          return (currentViews || 0) + 1; // If null or undefined, start at 0 and add 1
+      }, function(error, committed, snapshot) {
+          if (error) {
+              console.log('Transaction failed abnormally!', error);
+          } else if (!committed) {
+              console.log('No transaction committed.');
+          } else {
+              console.log('Game viewed! New count: ' + snapshot.val());
+          }
+          // Ensure we remove the reference after updating to prevent memory leaks
+          viewsRef.off();
+      });
+  });
 </script>
 
     </body>
